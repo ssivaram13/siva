@@ -1,0 +1,150 @@
+package clubmed;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+//import java.awt.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+//import org.openqa.selenium.support.ui.ExpectedConditions;
+//import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+
+public class login {
+	
+
+ public static void main(String[] args) throws InterruptedException, IOException
+  { 
+     	 
+		
+		Login_with_alltypes();		
+		Invalid_Username_and_Password();
+		
+	}
+	
+	public static void Login_with_alltypes() throws InterruptedException, IOException 
+	
+	{
+		System.setProperty("webdriver.chrome.driver","C:\\Users\\Muthuvel\\Downloads\\chromedriver_win32\\chromedriver.exe"); 
+		
+		WebDriver driver = new ChromeDriver();				    
+		
+		driver.get("https://clubmed-sandpiper-test.payvela.com/ui/resources/login");
+		
+		driver.manage().window().maximize();
+		
+		Thread.sleep(3000);
+		
+		ArrayList<String> username=readExcelData(0,"Sheet1");
+		
+		ArrayList<String> password=readExcelData(1,"Sheet1");		
+		
+		
+		for(int i=0;i<username.size();i++)
+		{ 		
+			
+		driver.findElement(By.xpath("//*[@id='username']")).sendKeys(username.get(i));
+		
+		Thread.sleep(2000);		
+		
+		driver.findElement(By.xpath("//*[@id='password']")).sendKeys(password.get(i));
+		
+        Thread.sleep(1000);
+		
+		driver.findElement(By.xpath("//*[@id=\'loginForm\']/div/div[3]/div[3]/button")).click();
+		
+		Thread.sleep(5000);
+		
+		driver.findElement(By.xpath("//*[@id=\"velanav\"]/ul[5]/li/a/span")).click();
+		
+		Thread.sleep(3000);
+		
+		driver.get("https://clubmed-sandpiper-test.payvela.com/ui/resources/login");
+		
+		Thread.sleep(3000);
+		
+		}
+			             
+	}	
+ 
+
+public static void Invalid_Username_and_Password() throws InterruptedException, IOException {
+	   
+	   
+		System.setProperty("webdriver.chrome.driver","C:\\Users\\Muthuvel\\Downloads\\chromedriver_win32\\chromedriver.exe"); 
+		
+		WebDriver driver = new ChromeDriver();
+		
+	    driver.get("https://clubmed-sandpiper-test.payvela.com/ui/resources/login");
+		
+		driver.manage().window().maximize();
+		
+		Thread.sleep(3000);
+		
+         ArrayList<String> username=readExcelData(0,"Sheet2");
+		
+		 ArrayList<String> password=readExcelData(1,"Sheet2");
+		 
+		 for(int i=0;i<username.size();i++)			
+		 { 			 
+		
+		driver.findElement(By.id("username")).sendKeys(username.get(i));	
+		
+		Thread.sleep(2000);		
+		
+		driver.findElement(By.id("password")).sendKeys(password.get(i));
+				
+		driver.findElement(By.xpath("//*[@id=\'loginForm\']/div/div[3]/div[3]/button")).click();
+		
+		Thread.sleep(3000);	
+		
+		driver.get("https://clubmed-sandpiper-test.payvela.com/ui/resources/login");
+		 
+		Thread.sleep(3000);
+		 
+		 }			   
+	   
+	}
+   
+   private static XSSFWorkbook wb1;   
+   
+   
+	public static ArrayList<String> readExcelData(int ColNo, String SheetNme ) throws IOException {		
+
+		
+    	FileInputStream fis = new FileInputStream("C:\\Users\\Muthuvel\\Desktop\\Clubmed.xlsx");      
+    	
+    	wb1 = new XSSFWorkbook(fis);
+    	
+    	XSSFSheet s = wb1.getSheet(SheetNme);
+    	
+    	java.util.Iterator<Row> rowIt = s.iterator();
+    	
+          rowIt.next();
+          
+          ArrayList<String> list = new  ArrayList<String>();
+          
+          while(rowIt.hasNext()){
+        	  
+        	 list.add(rowIt.next().getCell(ColNo).getStringCellValue());       	
+          }    
+      
+             
+          return list;
+          
+	}
+        	  
+	
+	 } 
+	
