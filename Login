@@ -1,0 +1,92 @@
+package clubmed;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+//import java.awt.List;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+//import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.Test;
+//import org.openqa.selenium.support.ui.ExpectedConditions;
+//import org.openqa.selenium.support.ui.WebDriverWait;
+
+
+
+
+
+public class login {
+	 
+	public static String LoginPath="https://clubmed-sandpiper-test.payvela.com/ui/resources/login";
+	
+	public static String ChromedriverPath="C:\\Users\\Muthuvel\\Downloads\\chromedriver_win32\\chromedriver.exe";
+	
+	@Test
+
+ public static void LoginMethod() throws InterruptedException, IOException
+	
+	{	
+		
+		System.setProperty("webdriver.chrome.driver",ChromedriverPath); 
+		
+		WebDriver driver = new ChromeDriver();				    
+		
+		driver.get(LoginPath);
+		
+		driver.manage().window().maximize();
+		
+		Thread.sleep(1000);	
+				
+		ReadExcelData exceldata = new ReadExcelData();
+		
+		ArrayList<String> username=exceldata.readExcelData(0, "Login_TestData");
+		
+		ArrayList<String> password=exceldata.readExcelData(1, "Login_TestData");		
+		
+		for(int i=0;i<username.size();i++)
+		{ 		
+			
+		driver.findElement(By.xpath("//*[@id='username']")).sendKeys(username.get(i));	
+		
+		Thread.sleep(1000);		
+		
+		driver.findElement(By.xpath("//*[@id='password']")).sendKeys(password.get(i));
+		
+        Thread.sleep(2000);
+		
+		driver.findElement(By.xpath("//*[@id=\'loginForm\']/div/div[3]/div[3]/button")).click();
+		
+		Thread.sleep(5000);
+		
+		driver.findElement(By.xpath("//*[@id=\"velanav\"]/ul[5]/li/a/span")).click();
+		
+		Thread.sleep(3000);
+		
+		driver.get(LoginPath);
+		
+		Thread.sleep(3000);
+		
+		}
+			             
+	}	   
+   	  
+	
+ }
+          
+	
+ 
+          
+    	
+    	
+    	
+    	
+	
+
