@@ -1,0 +1,132 @@
+package clubmed;
+
+import java.io.IOException;
+import java.util.ArrayList;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class Sign_up {
+	
+	 public static String LoginPath="https://zywie-business-test.payvela.com/ui/resources/loginoneui";
+		
+	 public static String ChromedriverPath="C:\\Users\\Muthuvel\\Downloads\\chromedriver_win32\\chromedriver.exe";
+
+	public static void main(String[] args) throws InterruptedException, IOException {
+		
+           
+		System.setProperty("webdriver.chrome.driver",ChromedriverPath); 
+		
+		WebDriver driver = new ChromeDriver();
+		
+        driver.get(LoginPath);		
+		
+		driver.manage().window().maximize();
+		
+		Thread.sleep(3000);
+		
+		ReadExcelData exceldata = new ReadExcelData();
+				
+		ArrayList<String> customerNumber=exceldata.readExcelData(0, "Signup_TestData");
+		
+		ArrayList<String> invoiceNumber=exceldata.readExcelData(1, "Signup_TestData");
+		
+		ArrayList<String> username=exceldata.readExcelData(2, "Signup_TestData");
+		
+         ArrayList<String> password=exceldata.readExcelData(3, "Signup_TestData");
+		
+		ArrayList<String> firstName=exceldata.readExcelData(4, "Signup_TestData");
+		
+		ArrayList<String> lastName=exceldata.readExcelData(5, "Signup_TestData");
+		
+         ArrayList<String> email=exceldata.readExcelData(6, "Signup_TestData");
+		
+			
+		
+		 for(int i=0;i<username.size();i++)	
+		 {
+		
+	
+		 
+        JavascriptExecutor js = (JavascriptExecutor) driver;
+		
+		js.executeScript("window.scrollTo(0, document.body.scrollHeight)");
+		
+		driver.findElement(By.name("signUp")).click();
+		
+		Thread.sleep(3000);
+		
+		driver.findElement(By.id("customerNumber")).sendKeys(customerNumber.get(i));
+		
+		driver.findElement(By.id("invoiceNumber")).sendKeys(invoiceNumber.get(i));	       
+		
+		driver.findElement(By.name("next")).click();
+		
+		Thread.sleep(4000);		
+		
+		driver.findElement(By.id("userName")).sendKeys(username.get(i));
+		
+		Thread.sleep(1000);
+		
+		driver.findElement(By.id("password")).sendKeys(password.get(i));
+		
+		Thread.sleep(1000);
+		
+		driver.findElement(By.id("reEnterPassword")).sendKeys(password.get(i));
+		
+		driver.findElement(By.id("firstName")).sendKeys(firstName.get(i));		
+		
+		driver.findElement(By.id("lastName")).sendKeys(lastName.get(i));
+		
+		Thread.sleep(1000);
+		
+		driver.findElement(By.id("email")).sendKeys(email.get(i));			
+		
+		driver.findElement(By.id("reEnterEmail")).sendKeys(email.get(i));
+		
+		//*[@id="termsOfUseAndPrivacyPolicyInd"]
+		
+		js.executeScript("window.scrollTo(0, document.body.scrollHeight)");		
+		
+        WebElement option1 = driver.findElement(By.xpath("//*[@id=\'termsOfUseAndPrivacyPolicyInd\']"));
+		
+		option1.click();
+		
+		driver.findElement(By.name("next")).click();
+		
+		Thread.sleep(3000);
+		
+		//exceldata.SecurityDataQuestion();
+		
+		ArrayList<String> securityAnswer1=exceldata.readExcelData(0, "Security_TestData");	
+		
+		 ArrayList<String> securityAnswer2=exceldata.readExcelData(1, "Security_TestData");
+		 
+		 ArrayList<String> securityAnswer3=exceldata.readExcelData(2, "Security_TestData");	
+		 
+		 for(int j=0;j<securityAnswer1.size();j++)
+			{ 	
+	        		   driver.findElement(By.id("securityAnswer1")).sendKeys(securityAnswer1.get(j));
+	        		   driver.findElement(By.id("securityAnswer2")).sendKeys(securityAnswer2.get(j));
+	        		   driver.findElement(By.id("securityAnswer3")).sendKeys(securityAnswer3.get(j));  
+	        		   driver.findElement(By.name("save")).click();
+
+			}
+		
+		Thread.sleep(3000);
+		
+		 driver.get(LoginPath);	
+		 
+		Thread.sleep(4000);
+		
+		 }
+		 
+	
+		
+		
+	}
+
+}
