@@ -1,0 +1,40 @@
+package clubmed;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+
+import javax.swing.text.html.HTMLDocument.Iterator;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+
+
+public class ExcelRead {
+	
+    private static XSSFWorkbook wb;
+
+	public static void main(String[] args) throws IOException {
+		
+    	FileInputStream fis = new FileInputStream("C:\\Users\\Muthuvel\\Desktop\\Clubmed.xlsx");
+    	
+    	wb = new XSSFWorkbook(fis);
+    	
+    	XSSFSheet s = wb.getSheet("Sheet1");
+    	
+    	java.util.Iterator<Row> rowIt = s.iterator();   	
+   
+    	
+    	//rowIt.next();
+    	
+    	while(rowIt.hasNext())
+    	{
+    		System.out.println(rowIt.next().getCell(1).getStringCellValue());
+    	} 	  	
+   	 
+       	
+	}
+
+}
