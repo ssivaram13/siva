@@ -1,0 +1,77 @@
+package clubmed;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
+
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+
+public class forgotUsername {
+	
+    public static String LoginPath="https://clubmed-sandpiper-test.payvela.com/ui/resources/login";
+	
+	public static String ChromedriverPath="C:\\Users\\Muthuvel\\Downloads\\chromedriver_win32\\chromedriver.exe";
+	
+	public static void main(String[] args) throws InterruptedException, IOException
+	
+	{
+	
+		 System.setProperty("webdriver.chrome.driver",ChromedriverPath); 
+			
+	     WebDriver driver = new ChromeDriver();	
+	     
+	     driver.manage().window().maximize();
+	     
+
+		driver.get(LoginPath);
+		
+		Thread.sleep(2000);
+		
+		ReadExcelData exceldata = new ReadExcelData();			
+		
+		 ArrayList<String> email=exceldata.readExcelData(0,"Forgotname_TestData");		 
+		 
+		 for(int i=0;i<email.size();i++)			
+		 { 			 		
+	
+		driver.findElement(By.linkText("Forgot username?")).click();
+		
+	    Thread.sleep(3000);
+
+		driver.findElement(By.id("email")).sendKeys(email.get(i));
+
+		driver.findElement(By.xpath("//*[@id='forgotUsernameForm']/div[2]/div/button[2]")).click();		
+
+		Thread.sleep(4000);
+
+		driver.findElement(By.xpath("//md-radio-button[@id='radio_2']")).click();
+
+		driver.findElement(By.xpath("//button[@value='submit']")).click();	
+		
+		Thread.sleep(3000);
+		
+		driver.get(LoginPath);
+		
+		Thread.sleep(3000);
+		
+		 }
+		
+		}
+	
+	
+          
+	}
+		
+		
+
+	
+	
+
+
